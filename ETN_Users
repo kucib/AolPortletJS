@@ -1,0 +1,1310 @@
+
+<style>
+header {
+}
+body {
+  margin: 0;
+  background-color: #e6e6e6;
+  ;
+}
+/* Modal Styles */
+.modal.custom {
+    outline:none;
+    
+}
+.modal.custom .modal-dialog {
+    width:80%;
+     height: :70%;
+    margin:0 auto;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+	
+}
+/* Tab Navigation */
+.nav-tabs {
+  margin: auto;
+  padding: 10px;
+  border: 0; 
+  
+}
+
+.nav-tabs > li > a {
+  background-color: #3276b1;
+  color: white;
+  font-weight: bold;
+}
+main {
+  background-color: #e6e6e6;
+  border: none;
+}
+.tab-content {
+  background-color: #e6e6e6;
+  border: none;
+  list-style-type: none;
+}
+</style>
+  <ul id="myTab" class="nav nav-tabs">
+    <li  id='1' class="nav active">
+      <a href="#home" role="tab" data-toggle="tab">
+        <icon class="glyphicon glyphicon-user"> User Data Administration</icon>
+      </a>
+    </li>
+    <li id='2' role="groups"><a href="#groups-tab" role="tab" data-toggle="tab">  <icon class="glyphicon glyphicon-wrench"> User Rights Administration</icon></a></li>
+    <li id='3' role="presentationAdm"><a href="#pets-for-sale" role="tab" data-toggle="tab"><icon class="glyphicon glyphicon-cog"> SSO Administration</icon></a></li>
+  </ul>
+  <main>
+    <div id='content' class="tab-content">
+      <div class="tab-pane active" id="home">
+        
+			<button id="addUser" class="btn btn-primary glyphicon glyphicon-plus">Add User</button> 
+			<table class="table_user table table-striped table-bordered" style="background-color:  white;"
+			data-toggle="table"
+			data-toolbar="#toolbar"
+			data-search="true"
+			data-show-refresh="true"
+			data-show-toggle="true"
+			data-show-columns="true"
+			data-sort-name="firstName"
+			data-unique-id="id"
+			data-sort-order="asc"
+			data-show-export="true"
+			data-pagination="true">
+				<thead>
+				<tr>
+				<th data-field="id" 
+						data-sortable="true" data-visible="false">ID</th>
+					<th data-field="fullName" 
+						data-sortable="true" data-visible="false">fullName</th>
+					<th data-field="firstName" 
+						data-sortable="true">First Name</th>
+					<th data-field="lastName" 
+						data-sortable="true">Last Name</th>
+					<th data-field="title" 
+						data-sortable="true">Title</th>
+					<th data-field="email" 
+						data-sortable="true" data-visible="false">email</th>   
+					<th data-field="phone" 
+						data-sortable="true" data-visible="false">phone</th> 		
+                    <th data-field="department" 
+						data-sortable="true" data-visible="false">Department</th> 		
+                    <th data-field="unit" 
+						data-sortable="true" data-visible="false">Unit</th> 								
+					<th data-field="action" data-formatter="actionFormatter" data-events="userActionEvents" style="pointer-events: none;">Action</th>
+				</tr>
+				</thead>
+			</table>
+      </div>
+       <div class="tab-pane" id="groups-tab">
+			
+			<button id="addGroup" class="btn btn-primary glyphicon glyphicon-plus">Add Group</button> 
+			<table  class="table_groups table table-striped table-bordered" style="background-color:  white;"
+			data-toggle="table"
+			data-toolbar="#toolbar"
+			data-search="true"
+			data-show-refresh="true"
+			data-show-toggle="true"
+			data-show-columns="true"
+			data-sort-name="name"
+			data-unique-id="name"
+			data-sort-order="asc"
+			data-show-export="true"
+			data-pagination="true">
+				<thead>
+				<tr>
+					<th data-field="name" 
+						data-sortable="true" data-visible="true">name</th>
+				<th data-field="action" data-formatter="groupsFormatter" data-events="groupsActionEvents" style="pointer-events: none;">Action</th>
+				</tr>
+				</thead>
+			</table>
+		
+      </div>
+      <div class="tab-pane" id="pets-for-sale">
+			<p>
+			  Pet for sale pane
+			</p>
+      </div>
+      </div>
+   
+  </main>
+ 
+ 
+<div class="modal custom fade" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title modal-header-info" id="details">Details</h4>
+			<h4 class="modal-title modal-header-primary" id="addLabel">Add User</h4>
+			<h4 class="modal-title modal-header-warning" id="editLabel">Edit User</h4>
+			</div>
+			<div class="modal-body">
+                <!-- The form is placed inside the body of modal -->
+				<div class="row">
+                <form id="modalForm" method="post" class="form-horizontal">
+				   <fieldset>
+                     <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">First Name</label>
+								<div class="col-sm-3 col-xs-5">
+									<div class="input-group">
+										 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+										   <input type="text" class="form-control" name="firstName" placeholder="First name" id ="firtsName" />
+										 </div>
+									</div>
+								<label class="col-sm-2 control-label" for="textinput">Last Name</label>
+							 <div class="col-sm-3 col-xs-5">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+									  <input type="text" name="lastName" class="form-control" placeholder="Last name" id ="lastName">
+								 </div>
+						    </div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">Full Name</label>
+							<div class="col-sm-8 col-xs-5">
+							<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							  <input type="text" name="fullName" class="form-control" placeholder="Full name" id ="fullName">
+							</div>
+						  </div>
+                         </div>
+						 
+						  <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">Email</label>
+							<div class="col-sm-8 col-xs-5">
+								<div class="input-group">
+									  <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+									  <input type="text" name="email" class="form-control" placeholder="Email" id ="email">
+								</div>
+						     </div>
+						   </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">Title</label>
+							<div class="col-sm-8">
+							<div class="input-group">
+							 <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+							  <input type="text" name="title" class="form-control" placeholder="Title" id ="title">
+							</div>
+						  </div>
+                         </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">Phone</label>
+							<div class="col-sm-8">
+							<div class="input-group">
+									  <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+							  <input type="text" name="phone" class="form-control" placeholder="(845)555-1212" id ="phone">
+							</div>
+						  </div>
+						  </div>
+						   <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">Department</label>
+								  <div class="col-sm-8">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+									<select class="form-control selectpicker" name="department" id="departmentid">
+										<option value="" selected="selected">Select Department</option>
+									</select>
+									</div>
+									</div>
+						      </div>
+							 <div class="form-group">
+									<label class="col-sm-2 control-label" for="textinput">Unit</label>
+									 <div class="col-sm-8">
+									 <div class="input-group">
+									  <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+									 <select class="form-control selectpicker"  name="unit" id="unitid">
+										<option value="" selected="selected">Please select Unit</option>
+									 </select>
+									</div>
+						        </div>
+							  </div>
+							  <div id="passwOnOff">
+									<div class="form-group">
+									 <label class="col-sm-2 control-label" for="textinput">Password</label>
+									  <div class="col-sm-3">
+                                      <div class="input-group">
+									   <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>									  
+										<input type="password" name="password" class="form-control" placeholder="Please enter password" id ="password">
+									   </div>
+                                       </div>
+									 <label class="col-sm-2 control-label" for="textinput">Password Confirm</label>
+									   <div class="col-sm-3">
+									    <div class="input-group">
+									   <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>		
+										<input type="password" name="confirmPassword" class="form-control" placeholder="Please confirm password" id ="confirmPass">
+									  </div>
+									</div>
+									</div>
+								</div>	
+								<div>
+                                <input type="hidden" name="id" class="form-control" id ="id">								
+					            </div>
+                         <div class="modal-footer">     
+						   <button type="submit"  id="buttonAddFlag"  class="btn btn-primary">Add New User <span class="glyphicon glyphicon-send"></span></button>
+						   <button type="submit" id="buttonEditFlag" class="btn btn-warning ">Edit User <span class="glyphicon glyphicon-edit"></span></button> 
+						   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						 </div>
+                    
+					</fieldset>
+                </form>
+            </div>
+		</div>
+      </div>
+    </div>
+	 </div>
+<!---------------------------------------------------------------------------- Start Modal -------------------------------------------------------------------->
+<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title modal-header-primary" id="addLabel">Add Group</h4>
+			</div>
+			<div class="modal-body">
+                <!-- The form is placed inside the body of modal -->
+				<div class="row">
+                <form id="modalAddGroupForm" method="post" class="form-horizontal">
+				   <fieldset>
+                     <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">Name</label>
+								<div class="col-sm-5 col-xs-5">
+									<div class="input-group">
+										 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+										   <input type="text" class="form-control" name="name" placeholder="name" id ="name" />
+										 </div>
+									</div>
+						  </div>
+						  <div class="form-group">
+							<label class="col-sm-2 control-label" for="textinput">Description</label>
+							<div class="col-sm-8">
+							<div class="input-group">
+							 <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+							  <input type="text" name="description" class="form-control" placeholder="Description" id ="decription">
+							</div>
+						  </div>
+                         </div>	
+                         <div class="modal-footer">     
+						   <button type="submit"  id="addGroupSubmitButton" class="btn btn-primary">Add New Group <span class="glyphicon glyphicon-send"></span></button>
+						   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						 </div>
+					</fieldset>
+                </form>
+            </div>
+		</div>
+      </div>
+    </div>
+	 </div>
+
+
+
+<!---------------------------------------------------------------------------- Member of Groups -------------------------------------------------------------------->
+<div class="modal custom fade" id="membersOfGroupsModal" tabindex="-1" role="dialog"  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title modal-header-primary" id="addLabel">Group Info</h4>
+			</div>
+			<div class="modal-body">
+                <!-- The form is placed inside the body of modal -->
+				<div class="row">
+                <form id="modalMembersGroupForm" method="post" class="form-horizontal">
+				   <fieldset>
+                  <div class="col-xs-6">
+							<label class="col-sm-2 control-label" for="textinput">Name</label>
+								
+									<div class="input-group">
+										 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+										   <input type="text" class="form-control" name="name" id ="groupName" />
+										 </div>
+						</div>		
+						  <div class="col-xs-6">
+							<label class="col-sm-2 control-label" for="textinput">Description</label>
+						
+							<div class="input-group">
+							 <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+							  <input type="text" name="description" class="form-control" id ="groupDecription">
+							</div>
+						  </div>
+                        
+                          <div class="col-xs-6">
+							<h2 class="sub-header">Members</h2>
+							  <div class="table-responsive">
+	                         <table  class="table_members table table-striped table-bordered" style="background-color:  white;"
+								data-toggle="table"
+								data-toolbar="#toolbar"
+								data-search="true"
+								data-sort-order="asc"
+								data-show-export="true"
+								data-pagination="true">
+									<thead>
+									<tr>
+										<th data-field="name" 
+											data-sortable="true" data-visible="true">name</th>
+											<th data-field="id" 
+											data-sortable="true" data-visible="false">name</th>
+									<th data-field="action" data-formatter="membersFormatter" data-events="membersActionEvents" style="pointer-events: none;">Action</th>
+									</tr>
+									</thead>
+								</table>
+						  </div>
+						  </div>
+
+
+                        <div class="col-xs-6">
+				          <h2 class="sub-header">Non Members</h2>
+				          <div class="table-responsive">
+	                         <table  class="table_nonmembers table table-striped table-bordered" style="background-color:  white;"
+								data-toggle="table"
+								data-toolbar="#toolbar"
+								data-search="true"
+								data-sort-order="asc"
+								data-show-export="true"
+								data-pagination="true">
+									<thead>
+									<tr>
+										<th data-field="name" 
+											data-sortable="true" data-visible="true">name</th>
+									<th data-field="action" data-formatter="nonMembersFormatter" data-events="nonMembersActionEvents" style="pointer-events: none;">Action</th>
+									</tr>
+									</thead>
+								</table>
+						  </div>
+                        </div>
+                        <div class="modal-footer">     
+						   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						 </div>
+					</fieldset>
+                </form>
+            </div>
+		</div>
+      </div>
+    </div>
+	 </div>
+
+
+<!---------------------------------------------------------------------------- End  Groups -------------------------------------------------------------------->
+
+
+
+
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.css">
+
+
+
+
+
+<script type="text/javascript">
+
+function actionFormatter(value, row, index) {
+    return [
+        '<a class="userDetails btn" href="javascript:void(0)" title="Details">',
+        '<i class="glyphicon glyphicon-eye-open"></i>',
+        '</a>',
+        '<a class="editUser ml10 btn" href="javascript:void(0)" title="Edit">',
+        '<i class="glyphicon glyphicon-edit"></i>',
+        '</a>'
+    ].join('');
+}
+
+window.userActionEvents = {
+    'click .userDetails': function (e, value, row, index) {
+      userDetails(row);
+    },
+    'click .editUser': function (e, value, row, index) {
+        editUser(row);
+    }
+};
+    /* 
+	User creation 
+	*/
+    $("#addUser").on('click', function() {
+	 //hide add label of modal
+	$('#addLabel').show();
+	//hide edit label of modal
+	$('#editLabel').hide();
+	//show details label of modal
+	$('#details').hide();
+	
+	$('#buttonAddFlag').show();
+	$('#buttonEditFlag').hide();
+	$('#passwOnOff').show();
+    $('#myModal').modal('show');
+    });
+    /* 
+	* Finished User creation 
+	*/	
+/* 
+Detaglio
+*/
+$('#table_user tr').hover(function() {
+    $(this).addClass('hover');
+}, function() {
+    $(this).removeClass('hover');
+});
+     /*
+	 * Show Details
+	 */
+	function userDetails(row) {
+    //hide add label of modal
+	$('#addLabel').hide();
+	//hide edit label of modal
+	$('#editLabel').hide();
+	//show details label of modal
+	$('#details').show();
+	//hide password field
+	$('#passwOnOff').hide();
+	//hide button Add 
+	$('#buttonAddFlag').hide();
+	//hide edit Add 
+	$('#buttonEditFlag').hide();
+    //populate the modal form 
+	document.getElementById('firtsName').value=row.firstName; 
+	document.getElementById('lastName').value=row.lastName;
+	document.getElementById('fullName').value=row.fullName;
+	document.getElementById('email').value=row.email;
+	document.getElementById('phone').value=row.phone;
+	document.getElementById('title').value=row.title;
+	document.getElementById('departmentid').value=row.department;
+	document.getElementById('unitid').value=row.unit;
+   	 $('#myModal').modal('show');	
+	};
+	/*
+	 * Edit User
+	 */
+	function editUser(row) {
+   //hide add label of modal
+	$('#addLabel').hide();
+	//hide edit label of modal
+	$('#editLabel').show();
+	//show details label of modal
+	$('#details').hide();
+	//hide password field
+	$('#passwOnOff').hide();
+	//hide button Add 
+	$('#buttonAddFlag').hide();
+	//hide edit Add 
+	$('#buttonEditFlag').show();
+    //populate the modal form 
+	document.getElementById('firtsName').value=row.firstName; 
+	document.getElementById('lastName').value=row.lastName;
+	document.getElementById('fullName').value=row.fullName;
+	document.getElementById('email').value=row.email;
+	document.getElementById('phone').value=row.phone;
+	document.getElementById('title').value=row.title;
+	document.getElementById('departmentid').value=row.department;
+	document.getElementById('unitid').value=row.unit;
+	document.getElementById('id').value=row.id;
+	
+   	 $('#myModal').modal('show');	
+	 
+	};	
+	
+//json test for Single Selects
+var myJson =  {
+ 	"department": [{
+ 			"name": "Accounting",
+ 			"id": "1",
+ 			"unit": [{
+ 				"name": "General",
+ 				"id": "1"
+ 			}]
+ 		},
+ 		{
+ 			"name": "Multiagenzia",
+ 			"id": "2",
+ 			"unit": [{
+ 				"name": "Temporary",
+ 				"id": "1"
+ 			}]
+ 		},
+ 		{
+ 			"name": "IT",
+ 			"id": "3",
+ 			"unit": [{
+ 					"name": "Development",
+ 					"id": "1"
+ 				},
+ 				{
+ 					"name": "Support",
+ 					"id": "2"
+ 				},
+ 				{
+ 					"name": "System",
+ 					"id": "3"
+ 				},
+ 				{
+ 					"name": "Information Services",
+ 					"id": "4"
+ 				}
+ 			]
+ 		},
+ 		{
+ 			"name": "Marketing",
+ 			"id": "4",
+ 			"unit": [{
+ 					"name": "Sales",
+ 					"id": "1"
+ 				},
+ 				{
+ 					"name": "Promoters",
+ 					"id": "2"
+ 				},
+ 				{
+ 					"name": "Guests",
+ 					"id": "3"
+ 				}
+
+ 			]
+ 		}
+
+
+ 	]
+ }
+// single select for Departaments and Units 
+$.each(myJson.department, function (index, value) {
+	   var department_id;
+	   var unit_id;
+          
+        $("#departmentid").append('<option rel="' + index + '" value="'+value.name+'">'+value.name+'</option>');
+        
+        $("#departmentid").change(function () {
+            $("#unitid").find("option:gt(0)").remove();
+           
+            
+            department_id = $(this).find('option:selected').attr('rel');
+            console.log("Country INDEX : " + department_id);
+
+			if( myJson.department[department_id]) {
+            $.each(myJson.department[department_id].unit, function (index1, value1) {
+             
+                $("#unitid").append('<option rel="' + index1 + '" value="'+value1.name+'">'+value1.name+'</option>');
+            });
+            }
+        });     
+		 
+});
+/* 
+Finished
+*/
+	/*
+	Bootstrap Event
+	*/
+	$(".custom-close").on('click', function() {
+		$('#myModal').modal('hide');
+	});
+	$('#myModal').on('hidden.bs.modal', function(){
+		$(this).find('form')[0].reset();
+	});
+	/* 
+	finished
+	*/
+	
+	// Ready Function
+	$(document).ready(function() {
+	     //hide add label of modal
+	     $('#addLabel').hide();
+		  //hide edit label of modal
+	     $('#editLabel').hide();
+		 //hide edit label of modal
+	     $('#details').hide();
+		 
+		 $('#passwOnOff').hide();
+		 $('#buttonAddFlag').hide();
+		 $('#buttonEditFlag').hide();
+			var url = "https://et-development-paltform.appspot.com";
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log(token);
+				
+				$.ajax({
+					url: url + "/api/users",
+					type: "GET",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+					 $('.table_user').bootstrapTable('load',data);	
+					
+				}).fail(function (err) {
+					console.log(err);
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+			
+	
+ });
+
+ $("#buttonAddFlag").click(function () {
+       //Call validate function 
+         validateAdd();
+    });
+ $("#buttonEditFlag").click(function () {
+      //Call Validate function 
+         validateEdit();
+   });
+function validateAdd() {
+    $('#modalForm').formValidation({
+        framework: 'bootstrap',
+        excluded: ':disabled',
+        icon: {
+           
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+		
+            firstName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The firstName is required'
+                    }
+                }
+            },
+            lastName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The lastName is required'
+                    }
+                }
+            },
+			 fullName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The fullName is required'
+                    }
+                }
+            },
+            email: {
+                 validators: {
+                    notEmpty: {
+                        message: 'The email address is required'
+                    },
+                    emailAddress: {
+                        message: 'The input is not a valid email address'
+                    }
+                }
+            },
+            title: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            phone: {
+                 validators: {
+                    notEmpty: {
+                        message: 'Please supply your phone number'
+                    },
+                    phone: {
+                        country: 'US',
+                        message: 'Please supply a vaild phone number with area code'
+                    }
+                }
+            },
+			department: {
+                validators: {
+                    notEmpty: {
+                        message: 'The department is required'
+                    }
+                }
+            },
+			unit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The unit is required'
+                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: 'The password is required and can\'t be empty'
+                    }
+                }
+           },
+		   confirmPassword: {
+                validators: {
+                    identical: {
+                        field: 'password',
+                        message: 'The password and its confirm are not the same'
+                    }
+                }
+            }
+		   
+		},
+		 onSuccess: function(e, data) {
+		 e.preventDefault();
+		 // get  the form and convert it to json 
+		 var json_data = JSON.stringify($('#modalForm').serializeObject());
+	     
+		 var url = "https://et-development-paltform.appspot.com";
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+			console.log("params"+params);
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log("donee"+token);
+				
+				$.ajax({
+					url: url + "/api/users",
+					type: "POST",
+					data:json_data,
+					contentType: "application/json",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+					console.log("values"+data);
+					alert('User added successfully');
+	                // Reload page 
+			        location.reload();
+				}).fail(function (err) {
+					console.log(err);
+					alert('fail data');
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+			
+			$('#myModal').modal('hide');	
+         }
+               
+    });
+       $('#myModal').on('shown.bs.modal', function () {
+           $('#modalForm').find('[name="firstName"]').focus();
+        })
+        .on('hidden.bs.modal', function () {
+            $('#modalForm').bootstrapValidator('resetForm', true);
+        });
+		
+		
+};
+function validateEdit() {
+    $('#modalForm').formValidation({
+        framework: 'bootstrap',
+        excluded: ':disabled',
+        icon: {
+            
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+		
+            firstName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The firstName is required'
+                    }
+                }
+            },
+            lastName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The lastName is required'
+                    }
+                }
+            },
+			 fullName: {
+                validators: {
+                    notEmpty: {
+                        message: 'The fullName is required'
+                    }
+                }
+            },
+            email: {
+                 validators: {
+                    notEmpty: {
+                        message: 'The email address is required'
+                    },
+                    emailAddress: {
+                        message: 'The input is not a valid email address'
+                    }
+                }
+            },
+            title: {
+                validators: {
+                    notEmpty: {
+                        message: 'The title is required'
+                    }
+                }
+            },
+            phone: {
+                 validators: {
+                    notEmpty: {
+                        message: 'Please supply your phone number'
+                    },
+                    phone: {
+                        country: 'US',
+                        message: 'Please supply a vaild phone number with area code'
+                    }
+                }
+            },
+			department: {
+                validators: {
+                    notEmpty: {
+                        message: 'The department is required'
+                    }
+                }
+            },
+			unit: {
+                validators: {
+                    notEmpty: {
+                        message: 'The unit is required'
+                    }
+                }
+            } 
+		   
+		},
+		 onSuccess: function(e, data) {
+		 e.preventDefault();
+		//get  id value from Form
+       	var id = $('#id').val(); 
+		//reset id to empty
+		$('#id').val("");
+		// get  the form and convert it to json 
+		var json_data = JSON.stringify($('#modalForm').serializeObject()); // store json string
+		 var url = "https://et-development-paltform.appspot.com";
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+			console.log("params"+params);
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log("donee"+token);
+				$.ajax({
+					url: url + "/api/users/"+id+"",
+					type: "PUT",
+					data:json_data,
+					contentType: "application/json",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+					console.log("values"+data);
+					alert('User updated successfully');
+	                // Reload page 
+			        location.reload();
+				}).fail(function (err) {
+					console.log(err);
+					alert('Operation failed');
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+			//hide modal
+			$('#myModal').modal('hide');	
+			
+         }
+       });
+       $('#myModal').on('shown.bs.modal', function () {
+           $('#modalForm').find('[name="firstName"]').focus();
+        })
+        .on('hidden.bs.modal', function () {
+            $('#modalForm').bootstrapValidator('resetForm', true);
+        });	
+};
+/*
+** Serialize form 
+*/
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+<!------------------------------------------------ Groups ----------------------------------------------------------->
+$('ul.nav-tabs li').click(function(e)    { 
+	 e.preventDefault();
+if($(this).attr('id')==2){
+  var url = "https://et-development-paltform.appspot.com";
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log(token);
+				
+				$.ajax({
+					url: url + "/api/groups",
+					type: "GET",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+				console.log(data);
+			    $('.table_groups').bootstrapTable('load',$.parseJSON(data));	
+				}).fail(function (err) {
+					console.log(err);
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+
+
+
+
+   }
+});
+function groupsFormatter(value, row, index) {
+	
+    return [
+        '<a class="groupsDetails btn" href="javascript:void(0)" title="Details">',
+        '<i class="glyphicon glyphicon-edit"></i>',
+        '</a>'
+    ].join('');
+}
+function membersFormatter(value, row, index) {
+
+    return [
+        '<a class="membersDetails btn" href="javascript:void(0)" title="Move to the right">',
+        '<i class="glyphicon glyphicon-chevron-right"></i>',
+        '</a>'
+    ].join('');
+}
+function nonMembersFormatter(value, row, index) {
+    return [
+        '<a class="nonMembersDetails btn" href="javascript:void(0)" title="Move to the left">',
+        '<i class="glyphicon glyphicon-chevron-left"></i>',
+        '</a>'
+    ].join('');
+}
+
+
+window.groupsActionEvents = {
+    'click .groupsDetails': function (e, value, row, index) {
+      groupDetails(row);
+    }
+};
+window.membersActionEvents = {
+    'click .membersDetails': function (e, value, row, index) {
+        	 var nameOfGroup = $("#groupName").val();
+		 var url = "https://et-development-paltform.appspot.com";
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+			console.log("params"+params);
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log("donee"+token);
+				
+				$.ajax({
+					url: url + "/api/groups/"+nameOfGroup+"?userId="+row.id+"",
+					type: "DELETE",
+					contentType: "application/json",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+					console.log("values"+data);
+					alert('Member removed successfully');
+						PopulateMembersTable(nameOfGroup);
+	                // Reload page 
+			       // location.reload();
+				}).fail(function (err) {
+					console.log(err);
+					alert('fail data');
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+			
+    }
+};
+window.nonMembersActionEvents = {
+    'click .nonMembersDetails': function (e, value, row, index) {
+    	 var nameOfGroup = $("#groupName").val();
+		 var url = "https://et-development-paltform.appspot.com";
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+			console.log("params"+params);
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log("donee"+token);
+				
+				$.ajax({
+					url: url + "/api/groups/"+nameOfGroup+"?userId="+row.id+"",
+					type: "POST",
+					contentType: "application/json",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+					console.log("values"+data);
+					alert('Member added successfully');
+						 PopulateMembersTable(nameOfGroup);
+	                // Reload page 
+			       // location.reload();
+				}).fail(function (err) {
+					console.log(err);
+					alert('fail data');
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+   
+    }
+};
+
+	function groupDetails(row) {
+  
+    //populate the modal form 
+	document.getElementById('groupName').value=row.name; 
+	document.getElementById('groupDecription').value=row.description;
+   	 $('#membersOfGroupsModal').modal('show');	
+   	  var nameOfGroup = row.name;
+   	 PopulateMembersTable(nameOfGroup);
+	};
+
+ // populate Bostrap table
+ function PopulateMembersTable(nameOfGroup){
+            var url = "https://et-development-paltform.appspot.com";
+           var regex = /\bcn=(.*?),/;
+
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log(token);
+				
+				$.ajax({
+					url: url + "/api/groups/"+nameOfGroup+"",
+					type: "GET",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+				console.log(data);
+				console.log(data.members);
+
+				   var membersJson = [];
+				  var nonmembersJson = [];
+				  //convert json array to key value json
+				  data.members.forEach(function(element) {
+					var match = element.match(regex);
+				     membersJson.push({
+				        name: match[1],
+				        id:element
+				    });
+                   });
+				   data.nonmembers.forEach(function(element) {
+				    var match = element.match(regex);
+				     nonmembersJson.push({
+				        name: match[1],
+				        id:element
+				    });
+                   });
+                   //populate tables
+			     $('.table_members').bootstrapTable('load',membersJson);	
+			     $('.table_nonmembers').bootstrapTable('load',nonmembersJson);	
+				}).fail(function (err) {
+					console.log(err);
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+}
+
+
+
+/* 
+	User creation 
+	*/
+    $("#addGroup").on('click', function() {
+    $('#addGroupModal').modal('show');
+    });
+     $("#addGroupSubmitButton").click(function () {
+       //Call validate function 
+         validateAddGroup();
+    });
+
+  function validateAddGroup() {
+    $('#modalAddGroupForm').formValidation({
+        framework: 'bootstrap',
+        excluded: ':disabled',
+        icon: {
+           
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+		
+            name: {
+                validators: {
+                    notEmpty: {
+                        message: 'The name is required'
+                    }
+                }
+            },
+            description: {
+                validators: {
+                    notEmpty: {
+                        message: 'The description is required'
+                    }
+                }
+          }  
+		   
+		},
+		 onSuccess: function(e, data) {
+		 e.preventDefault();
+		 // get  the form and convert it to json 
+		 var json_data = JSON.stringify($('#modalAddGroupForm').serializeObject());
+	     
+		 var url = "https://et-development-paltform.appspot.com";
+			var params = {
+				"username": "eme.sena@gmail.com",
+				"password": "mclaren",
+				"grant_type": "password",
+				"client_id": "client_foo"
+			};
+			console.log("params"+params);
+			$.ajax({
+				url: url + "/oauth/token",
+				type: "POST",
+				headers: {
+					"Content-type": "application/x-www-form-urlencoded; charset=utf-8",
+					"Authorization": "Basic " + btoa("client_foo:secret")
+				},
+				data: $.param(params)
+			}).done(function (token) {
+				console.log("donee"+token);
+				
+				$.ajax({
+					url: url + "/api/groups",
+					type: "POST",
+					data:json_data,
+					contentType: "application/json",
+					headers: {
+						"Authorization": "Bearer " + token.access_token
+					}
+				}).done(function (data) {
+					console.log("values"+data);
+					alert('Group added successfully');
+	                // Reload page 
+			        location.reload();
+				}).fail(function (err) {
+					console.log(err);
+					alert('fail data');
+				});
+				
+			}).fail(function (e) {
+				console.log(e);
+			});
+			
+			$('#myModal').modal('hide');	
+         }
+               
+    });
+       $('#myModal').on('shown.bs.modal', function () {
+           $('#modalAddGroupForm').find('[name="name"]').focus();
+        })
+        .on('hidden.bs.modal', function () {
+            $('#modalAddGroupForm').bootstrapValidator('resetForm', true);
+        });
+    }
+    /* 
+	* Finished User creation 
+	*/	
+	
+</script>
